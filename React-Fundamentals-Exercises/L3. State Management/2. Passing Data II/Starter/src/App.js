@@ -1,5 +1,6 @@
 import "./App.css";
 import logo from "./logo.svg";
+import MoviesInfo from "./MoviesInfo";
 
 // Display a list of movies where each movie contains a list of users that favorited it.
 // For detailed instructions, refer to Instructions.md.
@@ -96,22 +97,20 @@ const movies = {
 const App = () => {
   let userWithFavMovie = {};
 
-  profiles.forEach(profile => {
+  profiles.forEach((profile) => {
     const movieId = profile.favoriteMovieID;
 
     if (userWithFavMovie[movieId]) {
-      userWithFavMovie[movieId].push(profile.userID)
+      userWithFavMovie[movieId].push(profile.userID);
     } else {
       userWithFavMovie[movieId] = [profile.userID];
     }
+  });
+  console.log("userWithFavMovie--> ", userWithFavMovie);
 
-  })
-  console.log('userWithFavMovie--> ', userWithFavMovie);
+  const moviesInfo = Object.keys(movies).map((id) => movies[id]);
 
-  const moviesInfo = Object.keys(movies).map(id => movies[id])
-
-  console.log('moviesInfo -->', moviesInfo);
-
+  console.log("moviesInfo -->", moviesInfo);
 
   return (
     <div className="App">
@@ -120,16 +119,11 @@ const App = () => {
         <h1 className="App-title">ReactND - Coding Practice</h1>
       </header>
       <h2>How Popular is Your Favorite Movie?</h2>
-      {moviesInfo.map(movieInfo => {
-        return <div>
-          <h2>{movieInfo.name}</h2>
-          <p><strong>Liked By:</strong></p>
-          <ul>
-            {userWithFavMovie[movieInfo.id] ? userWithFavMovie[movieInfo.id].map(id => <li>{users[id].name}</li>) : <li><p>None of the current users liked this movie</p></li>}
-          </ul>
-
-        </div>
-      })}
+      <MoviesInfo
+        users={users}
+        userWithFavMovie={userWithFavMovie}
+        moviesInfo={moviesInfo}
+      />
     </div>
   );
 };
